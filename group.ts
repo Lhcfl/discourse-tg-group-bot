@@ -1,7 +1,8 @@
 import TelegramBot from 'node-telegram-bot-api';
-import { decryptUserApiKey, generateUserApiKey, verify } from './discourse';
+import { decryptUserApiKey, generateUserApiKey, getMe, verify } from './discourse';
 import { getUserByChatId, registerChatId, registerNonce } from './noncemap';
 import { getConfig } from './config';
+import { fetch } from 'bun';
 
 export function listenChatJoinRequest(bot: TelegramBot) {
   bot.on("message", async (msg) => {
@@ -26,6 +27,10 @@ export function listenChatJoinRequest(bot: TelegramBot) {
       }
       await bot.approveChatJoinRequest(related.chat_id, related.id);
       bot.sendMessage(msg.chat.id, "pwq 验证成功！已加群！");
+
+      getMe(decryptedPayload.key).then((me: any) => {
+        bot.sendMessage(related.chat_id, "pwq 欢迎 " + me.current_user.username);
+      });
     }
   });
 

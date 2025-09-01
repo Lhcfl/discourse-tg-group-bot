@@ -100,3 +100,20 @@ export async function verify(key: string) {
     return msg as string;
   }
 }
+
+export async function getMe(key: string) {
+  const config = getConfig();
+  try {
+    const res = await fetch(config.site_url + "/session/current.json", {
+      method: "GET",
+      headers: {
+        "User-Api-Key": key,
+        "User-Api-Client-Id": config.client_id,
+      }
+    });
+    return await res.json();
+  } catch (err) {
+    console.error('Failed to fetch user info:', err);
+    throw err;
+  }
+}
