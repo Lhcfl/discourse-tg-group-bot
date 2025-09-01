@@ -51,11 +51,11 @@ export function listenChatJoinRequest(bot: TelegramBot) {
     registerChatId(req.user_chat_id, { id: userId, chat_id: chatId });
 
     // 向用户发送私信，包含登录链接
-    const message = `👋 你好 ${userFirstName}！\n\n` +
+    const message = `pwq 你好 ${userFirstName}！\n\n` +
       `要加入群组，请先完成身份验证：\n` +
       `🔗 点击下方按钮登录，然后将 API 密钥复制粘贴回复给我。\n` +
       `⏰ 此链接将在 10 分钟后过期。\n` +
-      `✅ 登录成功后，你的加群申请将自动被批准。`;
+      `✅ 验证通过后，你的加群申请将自动被批准。`;
 
     await bot.sendMessage(req.user_chat_id, message, {
       reply_markup: {
@@ -67,6 +67,6 @@ export function listenChatJoinRequest(bot: TelegramBot) {
 
     console.log(`已向用户 ${userFirstName}(${userId}) 发送验证链接`);
 
-    bot.sendMessage(chatId, `👤 用户 ${userFirstName} 申请加群。`);
+    bot.sendMessage(chatId, `pwq ${userFirstName} 申请加群，已经发送了链接`);
   });
 }
